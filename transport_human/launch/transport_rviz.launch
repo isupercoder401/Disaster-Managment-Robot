@@ -1,0 +1,6 @@
+<launch>
+    <!-- RVIZ -->
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find arm_color_transport)/rviz/arm_color_transport.rviz"/>
+</launch>
+

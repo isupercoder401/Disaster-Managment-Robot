@@ -1,0 +1,18 @@
+<launch>
+    <arg name="img_show" default="false"/>
+    <!-- 地图名 || Map name  my_map-->
+    <arg name="map" default="my_map"/>
+    <!-- 加载地图 || Load map -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find yahboomcar_nav)/maps/$(arg map).yaml"/>
+    <include file="$(find yahboomcar_nav)/launch/laser_bringup.launch"/>
+    <!-- AMCL自适应蒙特卡洛定位 -->
+    <include file="$(find yahboomcar_nav)/launch/library/amcl.launch"/>
+    <!-- 导航核心组件move_base -->
+    <include file="$(find yahboomcar_nav)/launch/library/move_base.launch"/>
+    <!-- web_video_server -->
+    <node pkg="web_video_server" type="web_video_server" name="web_video_server" output="screen"/>
+    <node pkg="arm_color_transport" type="DrawMarker.py" name="draw_marker" required="true" output="screen"/>
+    <node pkg="arm_color_transport" type="transport_main.py" name="color_transport" required="true" output="screen">
+        <param name="img_show" type="bool" value="$(arg img_show)"/>
+    </node>
+</launch>
